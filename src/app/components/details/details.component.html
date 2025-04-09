@@ -1,0 +1,96 @@
+@if(product){
+<div class="bg-white rounded-lg overflow-hidden mb-4 px-40 mt-4">
+    <div class="flex">
+        <div class="w-5/12">
+            <div class="flex flex-col gap-3">
+                <img [src]="minImage" class="w-full h-150 shadow">
+            <div class="flex justify-around shadow">
+                @for (url of product.images; track $index){
+                <img [src]="url" alt="Product Image" class="w-3/12 h-auto mb-2 cursor-pointer" (click)="changeImage(url)">
+                }
+            </div>
+            </div>
+        </div>
+
+        <div class="w-7/12 p-4">
+            <h2 class="!text-3xl font-bold text-gray-800 mb-2"> {{product.name}}</h2>
+        <p class="text-gray-700 mb-4">{{product.shortDescription}}</p>
+
+        <div class="flex px-20">
+            <span></span>
+
+        </div>
+
+        <div class="flex justify-between px-20 items-baseline">
+            <div class="flex gap-8">
+                <span class="!text-xl text-gray-400"> <s>{{product.price}} ₹ </s></span>
+                <span class="!text-xl text-orange-300">{{product.discount}} % Off</span>
+                <span class="!text-xl text-green-500 font-bold"> {{sellingPrice}} ₹</span>
+            </div>
+            <div class="flex gap-8">
+                <button mat-raised-button color="accent" class="flex items-center" (click)="addToWishlist(product)">
+                @if(isInWishlist(product)){
+                <ng-container>
+                    <mat-icon class="text-red-500">favorite</mat-icon> <span>Remove From Wishlist</span>
+                </ng-container>
+                }
+                @else {
+                <ng-container>
+                    <mat-icon class="text-red-500">favorite_border</mat-icon> Add to Wishlist
+                </ng-container>
+                }
+               </button>
+            </div>
+            @if(isProductInCart(product._id!)){
+                <button mat-raised-button color="primary" class="shadow" (click)="addToCart(product)">
+                    <mat-icon>remove_shopping_cart</mat-icon> Remove From Cart</button>
+            }
+            @else{
+                <button mat-raised-button color="primary" class="shadow" (click)="addToCart(product)">
+                    <mat-icon>add_shopping_cart</mat-icon> Add to Cart</button>
+            }
+
+        </div>
+        </div>
+
+    </div>
+
+     <div class="border-t border-gray-200 pt-4">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Product Details</h3>
+        <pre>{{product.description}}</pre>
+     </div>
+
+     @if(similarProducts.length){
+     <div class="my-4">
+        <h4 class="text-2xl font-bold">Similar Products</h4>
+        <div class="flex justify-between gap-2">
+            @for (product of similarProducts; track $index) {
+            <div class="w-3/12 shadow ">
+                <app-product-card [product]="product"></app-product-card>
+            </div>
+            }
+        </div>
+    </div>
+}
+
+<h3 class="text-lg font-semibold text-gray-800 mb-4">Product Reviews</h3>
+
+<!-- Individual Review -->
+ <div class="border-t border-gray-200 py-4">
+    <div class="flex items-center mb-2">
+        <div class="rounded-full bg-gray-300 w-10 h-10 flex items-center justify-center mr-3">
+            JD
+        </div>
+        <div>
+            <p class="text-gray-800 font-semibold"> Swati Jha</p>
+            <p class="text-sm text-gray-600"> 5 Star</p>
+        </div>
+
+    </div>
+
+ </div>
+</div>
+}
+@else {
+    <h2>Loading..</h2>
+}
